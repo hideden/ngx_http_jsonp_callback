@@ -1,0 +1,22 @@
+./configure --add-module=./path/to/ngx_http_jsonp_callback
+
+
+ex)
+
+location /jsonp_api {
+    jsonp_callback         callback;
+    jsonp_callback_types   text/javascript;
+    proxy_pass  http://application-servers
+    # memcached_pass   memcached_server:11211;
+    # error_page 404 = @data_fetch_and_cache;
+}
+
+
+http://example.com/jsonp_api?id=xxxx
+    -> {"status":"success"}
+
+http://example.com/jsonp_api?id=xxxx&callback=cb_func_123456
+                                              ^^^^^^^^^^^^^^
+    ->  cb_func_123456({"status":"success"});
+
+
